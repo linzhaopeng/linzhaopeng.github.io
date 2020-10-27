@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Memcache基本命令</title>
+        <link rel="icon" href="http://linzhaopeng.com/favicon.ico">
+        <style>
+
+    html body {
+        font-family: '', sans-serif;
+        background-color: white;
+    }
+
+    :root {
+        --accent: #2196F3;
+        --border-width:  0 ;
+    }
+
+</style>
+
+
+<link rel="stylesheet" href="http://linzhaopeng.com/css/main.css">
+
+
+
+
+
+
+
+
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"> 
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+ 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/php.min.js"></script>
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
+ <meta name="generator" content="Hugo 0.75.1" />
+        
+
+        
+
+        
+            <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+
+        
+
+    </head>
+
+    <body>
+        
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand visible-xs" href="#">Memcache基本命令</a>
+                    <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+                    
+                        <ul class="nav navbar-nav">
+                            
+                                <li><a href="/">Home</a></li>
+                            
+                                <li><a href="/post/">Posts</a></li>
+                            
+                                <li><a href="/tags/">Tags</a></li>
+                            
+                                <li><a href="/about/">About</a></li>
+                            
+                        </ul>
+                    
+                    
+                        <ul class="nav navbar-nav navbar-right">
+                            
+                                <li class="navbar-icon"><a href="mailto:linzhaopn@gmail.com"><i class="fa fa-envelope-o"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://github.com/linzhaopeng/"><i class="fa fa-github"></i></a></li>
+                            
+                        </ul>
+                    
+                </div>
+            </div>
+        </nav>
+
+
+<main>
+
+    <div>
+        <h2>Memcache基本命令</h2>
+        <h5>2017-08-19</h5>
+        
+<a href="http://linzhaopeng.com/tags/nosql"><kbd class="item-tag">NoSQL</kbd></a>
+
+
+    </div>
+
+    <div align="start" class="content"><h3 id="1运行-memcache-服务">1.运行 Memcache 服务</h3>
+<pre><code>memcached
+</code></pre><p>参数：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">选项</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-d</td>
+<td style="text-align:left">作为守护进程启动</td>
+</tr>
+<tr>
+<td style="text-align:center">-m</td>
+<td style="text-align:left">分配内存，单位为 MB</td>
+</tr>
+<tr>
+<td style="text-align:center">-u</td>
+<td style="text-align:left">以**为用户启动 Memcache</td>
+</tr>
+<tr>
+<td style="text-align:center">-l</td>
+<td style="text-align:left">监听服务器的 IP 地址，可指定多个</td>
+</tr>
+<tr>
+<td style="text-align:center">-p</td>
+<td style="text-align:left">监听服务器的端口，1024以下的端口需要权限</td>
+</tr>
+<tr>
+<td style="text-align:center">-c</td>
+<td style="text-align:left">最大并发连接数，默认为1024</td>
+</tr>
+<tr>
+<td style="text-align:center">-P</td>
+<td style="text-align:left">pid 文件保存地址</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2set---设置键">2.set - 设置键</h3>
+<pre><code>set key_name flag expire bytes
+key_value
+</code></pre><p>参数：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">选项</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Key_name</td>
+<td style="text-align:left">键名</td>
+</tr>
+<tr>
+<td style="text-align:center">flag</td>
+<td style="text-align:left">关于键值对的额外信息</td>
+</tr>
+<tr>
+<td style="text-align:center">expire</td>
+<td style="text-align:left">键有效时间</td>
+</tr>
+<tr>
+<td style="text-align:center">bytes</td>
+<td style="text-align:left">键存储的字节数</td>
+</tr>
+<tr>
+<td style="text-align:center">key_value</td>
+<td style="text-align:left">键值</td>
+</tr>
+</tbody>
+</table>
+<p>停止 Memcache 服务或超过了 expire 该键会失效
+<img src="../../images/Memcache%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/set.jpg" alt="set"></p>
+<h3 id="3get---获取键信息可同时获取多个">3.get - 获取键信息(可同时获取多个)</h3>
+<pre><code>get key_name [key_name...]
+</code></pre><p>结果会返回除键有效时间外的所有信息
+<img src="../../images/Memcache%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/get.jpg" alt="get"></p>
+<h3 id="4replace---替换已存在键的键值">4.replace - 替换已存在键的键值</h3>
+<pre><code>replace key_name flag expire bytes
+key_value
+</code></pre><p>参数用法同 set，但是不能对无效（不存在）的键进行操作
+<img src="../../images/Memcache%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/replace.jpg" alt="replace"></p>
+<h3 id="5append---向已存在键的键值后面追加数据">5.append - 向已存在键的键值后面追加数据</h3>
+<pre><code>append key_name flag expire bytes
+key_value
+</code></pre><p>参数用法同 set ，同样不能对无效的键进行操作
+<img src="../../images/Memcache%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/append.jpg" alt="append"></p>
+<h3 id="6prepend---向已存在键的键值前面追加数据">6.prepend - 向已存在键的键值前面追加数据</h3>
+<pre><code>prepend key_name flag expire bytes
+key_value
+</code></pre><p>参数用法同 set ，同样不能对无效的键进行操作
+<img src="../../images/Memcache%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/prepend.jpg" alt="prepend"></p>
+<h3 id="7delete---删除已存在的键">7.delete - 删除已存在的键</h3>
+<pre><code>delete key_name
+</code></pre><p><img src="../../images/Memcache%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/delete.jpg" alt="delete"></p>
+<h3 id="8incrdecr---将已存在键的键值进行自增自减">8.incr/decr - 将已存在键的键值进行自增/自减</h3>
+<pre><code>incr/decr key_name value
+</code></pre><p>1.键值不为数字或无符号数字则操作无效
+2.自增操作后如果超过了键的存储字节，Memcache 会为其调整
+3.自减后若为负数，则键值为0
+<img src="../../images/Memcache%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/incr&amp;decr.jpg" alt="incr&decr"></p>
+<h3 id="9stats---当前-memcache-连接的服务端的信息">9.stats - 当前 memcache 连接的服务端的信息</h3>
+<p>参数：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">选项</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">items</td>
+<td style="text-align:left">显示各个 slab 中键的信息</td>
+</tr>
+<tr>
+<td style="text-align:center">slabs</td>
+<td style="text-align:left">显示各个 slab 的信息</td>
+</tr>
+</tbody>
+</table>
+<h3 id="10flush_all---清理所有键">10.flush_all - 清理所有键</h3>
+<pre><code>flush_all [time]
+</code></pre><p>如果指定可选参数 time，则不会立即清除键，直到指定时间后才执行</p>
+</div>
+
+    
+    
+    
+</main>
+
+        <footer>
+            <p class="copyright text-muted">© All rights reserved. Powered by <a href="https://gohugo.io">Hugo</a> and <a href="https://github.com/calintat/minimal">Minimal</a>.</p>
+        </footer>
+
+        
+
+        
+    </body>
+
+</html>
+

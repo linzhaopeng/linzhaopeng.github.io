@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>defer 的一个坑</title>
+        <link rel="icon" href="http://linzhaopeng.com/favicon.ico">
+        <style>
+
+    html body {
+        font-family: '', sans-serif;
+        background-color: white;
+    }
+
+    :root {
+        --accent: #2196F3;
+        --border-width:  0 ;
+    }
+
+</style>
+
+
+<link rel="stylesheet" href="http://linzhaopeng.com/css/main.css">
+
+
+
+
+
+
+
+
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"> 
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+ 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/php.min.js"></script>
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
+ <meta name="generator" content="Hugo 0.75.1" />
+        
+
+        
+
+        
+            <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+
+        
+
+    </head>
+
+    <body>
+        
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand visible-xs" href="#">defer 的一个坑</a>
+                    <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+                    
+                        <ul class="nav navbar-nav">
+                            
+                                <li><a href="/">Home</a></li>
+                            
+                                <li><a href="/post/">Posts</a></li>
+                            
+                                <li><a href="/tags/">Tags</a></li>
+                            
+                        </ul>
+                    
+                    
+                        <ul class="nav navbar-nav navbar-right">
+                            
+                                <li class="navbar-icon"><a href="mailto:linzhaopn@gmail.com"><i class="fa fa-envelope-o"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://github.com/linzhaopeng/"><i class="fa fa-github"></i></a></li>
+                            
+                        </ul>
+                    
+                </div>
+            </div>
+        </nav>
+
+
+<main>
+
+    <div>
+        <h2>defer 的一个坑</h2>
+        <h5>2018-07-20</h5>
+        
+<a href="http://linzhaopeng.com/tags/golang"><kbd class="item-tag">golang</kbd></a>
+
+
+    </div>
+
+    <div align="start" class="content"><p>在匿名返回值函数和命名返回值函数中，defer 对返回值进行操作会导致不同的结果</p>
+<h4 id="1测试代码">1.测试代码：</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">returnNamedResult</span>() (<span style="color:#a6e22e">result</span> <span style="color:#66d9ef">int</span>){
+	<span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">func</span>() {
+		<span style="color:#a6e22e">result</span><span style="color:#f92672">++</span>
+	}()
+	<span style="color:#66d9ef">return</span> 
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">returnAnonymousResult</span>() <span style="color:#66d9ef">int</span> {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">result</span> <span style="color:#66d9ef">int</span>
+	<span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">func</span>() {
+		<span style="color:#a6e22e">result</span><span style="color:#f92672">++</span>
+	}()
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">result</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">returnNamedResult</span>())
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">returnAnonymousResult</span>())
+}
+</code></pre></div><p>输出的结果为：</p>
+<p><img src="../../images/defer%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/defer.jpg" alt="defer"></p>
+<h4 id="2对匿名返回值函数进行修改">2.对匿名返回值函数进行修改：</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">returnAnonymousResult</span>() <span style="color:#66d9ef">int</span> {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int</span>
+	<span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">func</span>() {
+		<span style="color:#a6e22e">n</span><span style="color:#f92672">++</span>
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;second returnAnonymousResult:&#34;</span>, <span style="color:#a6e22e">n</span>)
+	}()
+
+	<span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">func</span>() {
+		<span style="color:#a6e22e">n</span><span style="color:#f92672">++</span>
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;first returnAnonymousResult:&#34;</span>, <span style="color:#a6e22e">n</span>)
+	}()
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">n</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+ 	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">returnAnonymousResult</span>())
+}
+</code></pre></div><p>输出的结果为：</p>
+<p><img src="../../images/defer%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/defer1.jpg" alt="defer1"></p>
+<p>可见 defer 其实有对变量 n 进行修改的，但是返回的值依然没有变化，推测被调用函数应该是通过拷贝变量值向调用函数进行返回</p>
+<h4 id="3再次对匿名返回值函数进行修改">3.再次对匿名返回值函数进行修改：</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">returnAnonymousResult</span>() <span style="color:#f92672">*</span><span style="color:#66d9ef">int</span> {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int</span>
+	<span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">func</span>() {
+		<span style="color:#a6e22e">n</span><span style="color:#f92672">++</span>
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;second returnAnonymousResult:&#34;</span>, <span style="color:#a6e22e">n</span>)
+	}()
+
+	<span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">func</span>() {
+		<span style="color:#a6e22e">n</span><span style="color:#f92672">++</span>
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;first returnAnonymousResult:&#34;</span>, <span style="color:#a6e22e">n</span>)
+	}()
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+ 	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#f92672">*</span>(<span style="color:#a6e22e">returnAnonymousResult</span>()))
+}
+</code></pre></div><p>输出的结果为：</p>
+<p><img src="../../images/defer%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/defer2.jpg" alt="defer2"></p>
+<p>将返回类型修改为 int 指针类型，返回变量 n 的地址，并在 defer 函数中对变量 n 进行修改，返回值符合我们的预期</p>
+<h4 id="4结论">4.结论</h4>
+<p>defer、return、返回值三者的执行逻辑应该是：首先 return 负责将结果写入返回值中；然后 defer 开始执行一些收尾工作，遵从&quot;先进后出&quot;的原则；最后函数携带当前返回值退出</p>
+</div>
+
+    
+    
+    
+        <h4 class="page-header">Related</h4>
+         <div class="item">
+
+    
+    
+    
+
+
+    
+    
+
+
+    <h4><a href="/post/go-modules/">go modules 使用</a></h4>
+    <h5>2019-08-12</h5>
+    
+<a href="http://linzhaopeng.com/tags/golang"><kbd class="item-tag">golang</kbd></a>
+
+
+
+</div>
+  <div class="item">
+
+    
+    
+    
+
+
+    
+    
+
+
+    <h4><a href="/post/go-context-%E5%8C%85/">go context 包</a></h4>
+    <h5>2018-09-23</h5>
+    
+<a href="http://linzhaopeng.com/tags/golang"><kbd class="item-tag">golang</kbd></a>
+
+
+
+</div>
+ 
+    
+</main>
+
+        <footer>
+            <p class="copyright text-muted">© All rights reserved. Powered by <a href="https://gohugo.io">Hugo</a> and <a href="https://github.com/calintat/minimal">Minimal</a>.</p>
+        </footer>
+
+        
+
+        
+    </body>
+
+</html>
+

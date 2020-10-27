@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>黑苹果 on linzhaopeng</title>
+    <link>http://linzhaopeng.com/tags/%E9%BB%91%E8%8B%B9%E6%9E%9C/</link>
+    <description>Recent content in 黑苹果 on linzhaopeng</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 24 Nov 2019 00:00:00 +0000</lastBuildDate><atom:link href="http://linzhaopeng.com/tags/%E9%BB%91%E8%8B%B9%E6%9E%9C/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>黑苹果安装</title>
+      <link>http://linzhaopeng.com/post/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85/</link>
+      <pubDate>Sun, 24 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://linzhaopeng.com/post/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85/</guid>
+      <description>注1：本文以安装 10.15 catalina 为例，如果是其它版本的 macOS，请把文中的 &amp;ldquo;catalina&amp;rdquo; 替换成相应的系列名称
+注2：因为 Apple 将 macOS 系统的获取途径限制为 AppStore 获取，所以手头需要一台安装了 macOS 的电脑
+1.主要配置列表    类目 型号     显卡 AMD RX580 2304SP（10.14后的 macOS 不再支持 NVIDIA 家的显卡，A卡免驱，AMD yes！）   cpu Intel i5-8500   主板 微星 B360M 迫击炮   网卡 BCM94360CS2 NGFF（免驱，带蓝牙）    2.装机准备  下载一个 macOS 镜像，下载之后会在 /Applications 目录下多一个名为 &amp;ldquo;Install maxOS catalina.app&amp;rdquo; 的应用  一个 U盘 根据主板型号寻找一份 efi 文件，远景论坛的黑苹果分区有很多分享，也可以从黑果小兵收集的机型列表中寻找相应的 efi，以我的配置为例，我的主板是微星的 b360，所以我选择了如图的 efi   3.</description>
+    </item>
+    
+  </channel>
+</rss>

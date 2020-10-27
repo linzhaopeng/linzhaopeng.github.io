@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>查看 MySQL 查询执行计划</title>
+        <link rel="icon" href="http://linzhaopeng.com/favicon.ico">
+        <style>
+
+    html body {
+        font-family: '', sans-serif;
+        background-color: white;
+    }
+
+    :root {
+        --accent: #2196F3;
+        --border-width:  0 ;
+    }
+
+</style>
+
+
+<link rel="stylesheet" href="http://linzhaopeng.com/css/main.css">
+
+
+
+
+
+
+
+
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"> 
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+ 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/php.min.js"></script>
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
+ <meta name="generator" content="Hugo 0.75.1" />
+        
+
+        
+
+        
+            <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+
+        
+
+    </head>
+
+    <body>
+        
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand visible-xs" href="#">查看 MySQL 查询执行计划</a>
+                    <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+                    
+                        <ul class="nav navbar-nav">
+                            
+                                <li><a href="/">Home</a></li>
+                            
+                                <li><a href="/post/">Posts</a></li>
+                            
+                                <li><a href="/tags/">Tags</a></li>
+                            
+                        </ul>
+                    
+                    
+                        <ul class="nav navbar-nav navbar-right">
+                            
+                                <li class="navbar-icon"><a href="mailto:linzhaopn@gmail.com"><i class="fa fa-envelope-o"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://github.com/linzhaopeng/"><i class="fa fa-github"></i></a></li>
+                            
+                        </ul>
+                    
+                </div>
+            </div>
+        </nav>
+
+
+<main>
+
+    <div>
+        <h2>查看 MySQL 查询执行计划</h2>
+        <h5>2016-10-19</h5>
+        
+<a href="http://linzhaopeng.com/tags/mysql"><kbd class="item-tag">MySQL</kbd></a>
+
+
+    </div>
+
+    <div align="start" class="content"><p>explain 可以分析查询语句的执行，即 MySQL 的执行计划，输出的信息如下：
+<img src="../../images/%E6%9F%A5%E7%9C%8BMySQL%E6%9F%A5%E8%AF%A2%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92/explain.jpg" alt="explain"></p>
+<h3 id="建立测试数据表">建立测试数据表：</h3>
+<pre><code>CREATE TABLE `person` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `last_name` varchar(50) NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `age` tinyint(3) unsigned NOT NULL DEFAULT '1',
+  `sex` char(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `l_f_a` (`last_name`,`first_name`,`age`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `person` (`id`, `last_name`, `first_name`, `age`, `sex`)
+VALUES
+	(1, 'Bryany', 'Julia', 1, '1'),
+	(2, 'Bryant', 'Kobe', 35, '1'),
+	(3, 'Allen', 'Rose', 15, '0'),
+	(4, 'Allen', 'Kim', 18, '1'),
+	(5, 'James', 'Tim', 4, '1');
+
+CREATE TABLE `company` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL DEFAULT '',
+  `person_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `company` (`id`, `name`, `person_id`)
+VALUES
+	(1, 'a', 1),
+	(2, 'a', 2),
+	(3, 'b', 3),
+	(4, 'c', 4),
+	(6, 'c', 6);
+</code></pre><h3 id="1id">1.id</h3>
+<p>select 的查询序列号</p>
+<h3 id="2select_type">2.select_type</h3>
+<p>查询的类型</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">查询类型</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">SIMPLE</td>
+<td style="text-align:left">简单查询(查询中不使用 UNION 查询或子查询)</td>
+</tr>
+<tr>
+<td style="text-align:center">PRIMARY</td>
+<td style="text-align:left">最外层的查询</td>
+</tr>
+<tr>
+<td style="text-align:center">UNION</td>
+<td style="text-align:left">UNION 查询中的第二个或后面的 select 语句</td>
+</tr>
+<tr>
+<td style="text-align:center">UNION RESULT</td>
+<td style="text-align:left">UNION 的结果</td>
+</tr>
+<tr>
+<td style="text-align:center">DEPENDENT UNION</td>
+<td style="text-align:left">UNION 做为子查询时，UNION 查询中第二个或后面的 select</td>
+</tr>
+<tr>
+<td style="text-align:center">DEPENDENT SUBQUERY</td>
+<td style="text-align:left">子查询中的第一个select</td>
+</tr>
+<tr>
+<td style="text-align:center">SUBQUERY</td>
+<td style="text-align:left">子查询中的第一个 select</td>
+</tr>
+<tr>
+<td style="text-align:center">DERIVED</td>
+<td style="text-align:left">导出表的 select （FROM子句的子查询）</td>
+</tr>
+</tbody>
+</table>
+<p>UNION RESULT：</p>
+<pre><code>explain select last_name,first_name,age from person where last_name='Bryany' union select last_name,first_name,age from person where last_name='Kobe';
+</code></pre><p><img src="../../images/%E6%9F%A5%E7%9C%8BMySQL%E6%9F%A5%E8%AF%A2%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92/type_union.jpg" alt="type_union">
+DEPENDENT UNION 和 DEPENDENT SUBQUERY：</p>
+<pre><code>DEPENDENT UNION 和 DEPENDENT SUBQUERY：
+</code></pre><p><img src="../../images/%E6%9F%A5%E7%9C%8BMySQL%E6%9F%A5%E8%AF%A2%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92/type_dependent.jpg" alt="type_dependent"></p>
+<h3 id="3table">3.table</h3>
+<p>输出行所查询的表</p>
+<h3 id="4type">4.type</h3>
+<p>联接类型，从最佳类型到最坏类型分别为：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">system</td>
+<td style="text-align:left">表中仅有一行（=系统表），是 const 联接类型的特例</td>
+</tr>
+<tr>
+<td style="text-align:center">const</td>
+<td style="text-align:left">表示查出来的数据要根据索引来决定，且索引取出来的数据只有一条</td>
+</tr>
+<tr>
+<td style="text-align:center">eq_ref</td>
+<td style="text-align:left">对于每个来自于前面的表的行组合，从该表中读取一行</td>
+</tr>
+<tr>
+<td style="text-align:center">ref</td>
+<td style="text-align:left">对于每个来自于前面的表的行组合，所有能匹配索引值的行将从这张表中读取</td>
+</tr>
+<tr>
+<td style="text-align:center">ref_or_null</td>
+<td style="text-align:left">添加了MySQL可以专门搜索包含NULL值的行的 ref 联接类型</td>
+</tr>
+<tr>
+<td style="text-align:center">index_merge</td>
+<td style="text-align:left">使用了索引合并优化的联接类型</td>
+</tr>
+<tr>
+<td style="text-align:center">unique_subquery</td>
+<td style="text-align:left">通过 unique_subquery 索引查找函数，替换通过主键查询的子查询，使效率更高</td>
+</tr>
+<tr>
+<td style="text-align:center">index_subquery</td>
+<td style="text-align:left">类似于 unique_subquery，通过 index_subquery 索引查找函数，替换通过索引查询的子查询</td>
+</tr>
+<tr>
+<td style="text-align:center">range</td>
+<td style="text-align:left">表示查出来的数据要根据索引来决定，索引取出来的数据一个有范围的，不止一条</td>
+</tr>
+<tr>
+<td style="text-align:center">index</td>
+<td style="text-align:left">扫描所有的索引</td>
+</tr>
+<tr>
+<td style="text-align:center">ALL</td>
+<td style="text-align:left">全表扫描，一点都不走索引了</td>
+</tr>
+</tbody>
+</table>
+<h3 id="5possible_keys">5.possible_keys</h3>
+<p>查询能使用哪个索引在表中找到行</p>
+<h3 id="6key">6.key</h3>
+<p>查询实际使用的索引</p>
+<h3 id="7key_len">7.key_len</h3>
+<p>查询实际使用的索引的长度</p>
+<h3 id="8ref">8.ref</h3>
+<p>查询使用哪一列或常数与 key 一起从表中选择行</p>
+<h3 id="9rows">9.rows</h3>
+<p>查询认为该查询的执行需要检查的行数。可以通过多行之间的数据相乘预估要处理的行数</p>
+<h3 id="10filtered">10.filtered</h3>
+<p>通过条件过滤出的行数的百分比估计值</p>
+<h3 id="11extra">11.Extra</h3>
+<p>MySQL 解决查询的详细信息：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Using where</td>
+<td style="text-align:left">WHERE 子句用于限制哪一个行匹配下一个表或发送到客户</td>
+</tr>
+<tr>
+<td style="text-align:center">Using index</td>
+<td style="text-align:left">MySQL 直接从索引树种获取查询的信息，不需要读取实际的行(覆盖索引)</td>
+</tr>
+<tr>
+<td style="text-align:center">Using index condition</td>
+<td style="text-align:left">不是所有的列数据都在索引树上，还需要访问实际的行记录</td>
+</tr>
+<tr>
+<td style="text-align:center">Using temporary</td>
+<td style="text-align:left">MySQL 需要创建一张临时表</td>
+</tr>
+<tr>
+<td style="text-align:center">Using filesort</td>
+<td style="text-align:left">得到所需结果集，需要对所有记录进行文件排序，性能极差，需要进行优化</td>
+</tr>
+<tr>
+<td style="text-align:center">Using join buffer</td>
+<td style="text-align:left">需要进行嵌套循环计算</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>设计优秀的索引应该考虑到整个查询，而不单单是WHERE条件部分。MySQL可以使用索引来直接获取列的数据，这样就不再需要再回表查询。如果一个索引包含（或者说覆盖）所有需要查询的字段的值，我们就称之为“覆盖索引”。</p>
+<p>摘录来自: 施瓦茨 (Baron Schwartz)《高性能MySQL：第3版》</p>
+</blockquote>
+</div>
+
+    
+    
+    
+</main>
+
+        <footer>
+            <p class="copyright text-muted">© All rights reserved. Powered by <a href="https://gohugo.io">Hugo</a> and <a href="https://github.com/calintat/minimal">Minimal</a>.</p>
+        </footer>
+
+        
+
+        
+    </body>
+
+</html>
+
