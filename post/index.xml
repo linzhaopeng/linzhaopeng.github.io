@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on linzhaopeng</title>
-    <link>http://linzhaopeng.com/post/</link>
+    <link>http://linzhaopeng.github.io/post/</link>
     <description>Recent content in Posts on linzhaopeng</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 24 Nov 2019 00:00:00 +0000</lastBuildDate><atom:link href="http://linzhaopeng.com/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 24 Nov 2019 00:00:00 +0000</lastBuildDate><atom:link href="http://linzhaopeng.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>黑苹果安装</title>
-      <link>http://linzhaopeng.com/post/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85/</link>
+      <link>http://linzhaopeng.github.io/post/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85/</link>
       <pubDate>Sun, 24 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://linzhaopeng.com/post/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85/</guid>
+      <guid>http://linzhaopeng.github.io/post/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85/</guid>
       <description>注1：本文以安装 10.15 catalina 为例，如果是其它版本的 macOS，请把文中的 &amp;ldquo;catalina&amp;rdquo; 替换成相应的系列名称
 注2：因为 Apple 将 macOS 系统的获取途径限制为 AppStore 获取，所以手头需要一台安装了 macOS 的电脑
 1.主要配置列表    类目 型号     显卡 AMD RX580 2304SP（10.14后的 macOS 不再支持 NVIDIA 家的显卡，A卡免驱，AMD yes！）   cpu Intel i5-8500   主板 微星 B360M 迫击炮   网卡 BCM94360CS2 NGFF（免驱，带蓝牙）    2.装机准备  下载一个 macOS 镜像，下载之后会在 /Applications 目录下多一个名为 &amp;ldquo;Install maxOS catalina.app&amp;rdquo; 的应用  一个 U盘 根据主板型号寻找一份 efi 文件，远景论坛的黑苹果分区有很多分享，也可以从黑果小兵收集的机型列表中寻找相应的 efi，以我的配置为例，我的主板是微星的 b360，所以我选择了如图的 efi   3.</description>
@@ -20,10 +20,10 @@
     
     <item>
       <title>go modules 使用</title>
-      <link>http://linzhaopeng.com/post/go-modules/</link>
+      <link>http://linzhaopeng.github.io/post/go-modules/</link>
       <pubDate>Mon, 12 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://linzhaopeng.com/post/go-modules/</guid>
+      <guid>http://linzhaopeng.github.io/post/go-modules/</guid>
       <description>go Modules 是 golang 新的官方包管理工具，替换了旧的基于 GOPATH 的方法，对依赖包进行管理
 修改系统变量：
 export GOROOT=/usr/local/go # 指定 golang 的安装位置 export GOPATH=/Users/lzp/goProject/goPath # 存放自己开发的源码和第三方包，不能和 GOROOT 指定同一个目录 export GOBIN=/Users/lzp/goProject/goPath/bin # 指定通过 go install安装的包的路径 export GO111MODULE=on # 开启 go modules export GOPROXY=https://goproxy.cn,direct # 设置 go 模块代理，防止被强 通过go env命令查看配置是否生效
@@ -34,20 +34,20 @@ export GOROOT=/usr/local/go # 指定 golang 的安装位置 export GOPATH=/Users
     
     <item>
       <title>go context 包</title>
-      <link>http://linzhaopeng.com/post/go-context-%E5%8C%85/</link>
+      <link>http://linzhaopeng.github.io/post/go-context-%E5%8C%85/</link>
       <pubDate>Sun, 23 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://linzhaopeng.com/post/go-context-%E5%8C%85/</guid>
+      <guid>http://linzhaopeng.github.io/post/go-context-%E5%8C%85/</guid>
       <description>一开始接触 golang 协程的时候，如果想停止子协程，可以通过 channel 通信的方式，主协程通知子协程终止。
 package main import ( &amp;#34;fmt&amp;#34; &amp;#34;time&amp;#34; ) func test(ch &amp;lt;-chan bool) { i, ticker := 0, time.NewTicker(time.Second) for _ = range ticker.C { select { case &amp;lt;-ch: return default: fmt.Println(&amp;#34;test&amp;#34;, i) i++ } } } func test1(ch &amp;lt;-chan bool) { i, ticker := 0, time.NewTicker(time.Second) for _ = range ticker.C { select { case &amp;lt;-ch: return default: fmt.Println(&amp;#34;test1&amp;#34;, i) i++ } } } func main() { ch := make(chan bool) go test(ch) go test1(ch) time.</description>
     </item>
     
     <item>
       <title>defer 的一个坑</title>
-      <link>http://linzhaopeng.com/post/defer-%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/</link>
+      <link>http://linzhaopeng.github.io/post/defer-%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/</link>
       <pubDate>Fri, 20 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://linzhaopeng.com/post/defer-%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/</guid>
+      <guid>http://linzhaopeng.github.io/post/defer-%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/</guid>
       <description>在匿名返回值函数和命名返回值函数中，defer 对返回值进行操作会导致不同的结果
 1.测试代码： package main import &amp;#34;fmt&amp;#34; func returnNamedResult() (result int){ defer func() { result++ }() return } func returnAnonymousResult() int { var result int defer func() { result++ }() return result } func main() { fmt.Println(returnNamedResult()) fmt.Println(returnAnonymousResult()) } 输出的结果为：
 2.对匿名返回值函数进行修改： package main import &amp;#34;fmt&amp;#34; func returnAnonymousResult() int { var n int defer func() { n++ fmt.Println(&amp;#34;second returnAnonymousResult:&amp;#34;, n) }() defer func() { n++ fmt.Println(&amp;#34;first returnAnonymousResult:&amp;#34;, n) }() return n } func main() { fmt.</description>
@@ -55,10 +55,10 @@ package main import ( &amp;#34;fmt&amp;#34; &amp;#34;time&amp;#34; ) func test(c
     
     <item>
       <title>Memcache 基本命令</title>
-      <link>http://linzhaopeng.com/post/memcache-%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/</link>
+      <link>http://linzhaopeng.github.io/post/memcache-%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/</link>
       <pubDate>Sat, 19 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://linzhaopeng.com/post/memcache-%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/</guid>
+      <guid>http://linzhaopeng.github.io/post/memcache-%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/</guid>
       <description>1.运行 Memcache 服务 memcached 参数：
    选项 描述     -d 作为守护进程启动   -m 分配内存，单位为 MB   -u 以**为用户启动 Memcache   -l 监听服务器的 IP 地址，可指定多个   -p 监听服务器的端口，1024以下的端口需要权限   -c 最大并发连接数，默认为1024   -P pid 文件保存地址    2.set - 设置键 set key_name flag expire bytes key_value 参数：
    选项 描述     Key_name 键名   flag 关于键值对的额外信息   expire 键有效时间   bytes 键存储的字节数   key_value 键值    停止 Memcache 服务或超过了 expire 该键会失效 3.</description>
@@ -66,10 +66,10 @@ package main import ( &amp;#34;fmt&amp;#34; &amp;#34;time&amp;#34; ) func test(c
     
     <item>
       <title>查看 MySQL 查询执行计划</title>
-      <link>http://linzhaopeng.com/post/%E6%9F%A5%E7%9C%8B-mysql-%E6%9F%A5%E8%AF%A2%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92/</link>
+      <link>http://linzhaopeng.github.io/post/%E6%9F%A5%E7%9C%8B-mysql-%E6%9F%A5%E8%AF%A2%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92/</link>
       <pubDate>Wed, 19 Oct 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://linzhaopeng.com/post/%E6%9F%A5%E7%9C%8B-mysql-%E6%9F%A5%E8%AF%A2%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92/</guid>
+      <guid>http://linzhaopeng.github.io/post/%E6%9F%A5%E7%9C%8B-mysql-%E6%9F%A5%E8%AF%A2%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92/</guid>
       <description>explain 可以分析查询语句的执行，即 MySQL 的执行计划，输出的信息如下： 建立测试数据表： CREATE TABLE `person` ( `id` int(10) unsigned NOT NULL AUTO_INCREMENT, `last_name` varchar(50) NOT NULL, `first_name` varchar(50) NOT NULL, `age` tinyint(3) unsigned NOT NULL DEFAULT &#39;1&#39;, `sex` char(1) NOT NULL DEFAULT &#39;1&#39;, PRIMARY KEY (`id`), KEY `l_f_a` (`last_name`,`first_name`,`age`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4; INSERT INTO `person` (`id`, `last_name`, `first_name`, `age`, `sex`) VALUES (1, &#39;Bryany&#39;, &#39;Julia&#39;, 1, &#39;1&#39;), (2, &#39;Bryant&#39;, &#39;Kobe&#39;, 35, &#39;1&#39;), (3, &#39;Allen&#39;, &#39;Rose&#39;, 15, &#39;0&#39;), (4, &#39;Allen&#39;, &#39;Kim&#39;, 18, &#39;1&#39;), (5, &#39;James&#39;, &#39;Tim&#39;, 4, &#39;1&#39;); CREATE TABLE `company` ( `id` int(11) unsigned NOT NULL AUTO_INCREMENT, `name` varchar(50) NOT NULL DEFAULT &#39;&#39;, `person_id` int(10) unsigned NOT NULL, PRIMARY KEY (`id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4; INSERT INTO `company` (`id`, `name`, `person_id`) VALUES (1, &#39;a&#39;, 1), (2, &#39;a&#39;, 2), (3, &#39;b&#39;, 3), (4, &#39;c&#39;, 4), (6, &#39;c&#39;, 6); 1.</description>
     </item>
     

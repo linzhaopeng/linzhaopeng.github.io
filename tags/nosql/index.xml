@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>NoSQL on linzhaopeng</title>
-    <link>http://linzhaopeng.com/tags/nosql/</link>
+    <link>http://linzhaopeng.github.io/tags/nosql/</link>
     <description>Recent content in NoSQL on linzhaopeng</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 19 Aug 2017 00:00:00 +0000</lastBuildDate><atom:link href="http://linzhaopeng.com/tags/nosql/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 19 Aug 2017 00:00:00 +0000</lastBuildDate><atom:link href="http://linzhaopeng.github.io/tags/nosql/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Memcache 基本命令</title>
-      <link>http://linzhaopeng.com/post/memcache-%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/</link>
+      <link>http://linzhaopeng.github.io/post/memcache-%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/</link>
       <pubDate>Sat, 19 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://linzhaopeng.com/post/memcache-%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/</guid>
+      <guid>http://linzhaopeng.github.io/post/memcache-%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/</guid>
       <description>1.运行 Memcache 服务 memcached 参数：
    选项 描述     -d 作为守护进程启动   -m 分配内存，单位为 MB   -u 以**为用户启动 Memcache   -l 监听服务器的 IP 地址，可指定多个   -p 监听服务器的端口，1024以下的端口需要权限   -c 最大并发连接数，默认为1024   -P pid 文件保存地址    2.set - 设置键 set key_name flag expire bytes key_value 参数：
    选项 描述     Key_name 键名   flag 关于键值对的额外信息   expire 键有效时间   bytes 键存储的字节数   key_value 键值    停止 Memcache 服务或超过了 expire 该键会失效 3.</description>

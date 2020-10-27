@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>golang on linzhaopeng</title>
-    <link>http://linzhaopeng.com/tags/golang/</link>
+    <link>http://linzhaopeng.github.io/tags/golang/</link>
     <description>Recent content in golang on linzhaopeng</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 12 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="http://linzhaopeng.com/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 12 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="http://linzhaopeng.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>go modules 使用</title>
-      <link>http://linzhaopeng.com/post/go-modules/</link>
+      <link>http://linzhaopeng.github.io/post/go-modules/</link>
       <pubDate>Mon, 12 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://linzhaopeng.com/post/go-modules/</guid>
+      <guid>http://linzhaopeng.github.io/post/go-modules/</guid>
       <description>go Modules 是 golang 新的官方包管理工具，替换了旧的基于 GOPATH 的方法，对依赖包进行管理
 修改系统变量：
 export GOROOT=/usr/local/go # 指定 golang 的安装位置 export GOPATH=/Users/lzp/goProject/goPath # 存放自己开发的源码和第三方包，不能和 GOROOT 指定同一个目录 export GOBIN=/Users/lzp/goProject/goPath/bin # 指定通过 go install安装的包的路径 export GO111MODULE=on # 开启 go modules export GOPROXY=https://goproxy.cn,direct # 设置 go 模块代理，防止被强 通过go env命令查看配置是否生效
@@ -23,20 +23,20 @@ export GOROOT=/usr/local/go # 指定 golang 的安装位置 export GOPATH=/Users
     
     <item>
       <title>go context 包</title>
-      <link>http://linzhaopeng.com/post/go-context-%E5%8C%85/</link>
+      <link>http://linzhaopeng.github.io/post/go-context-%E5%8C%85/</link>
       <pubDate>Sun, 23 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://linzhaopeng.com/post/go-context-%E5%8C%85/</guid>
+      <guid>http://linzhaopeng.github.io/post/go-context-%E5%8C%85/</guid>
       <description>一开始接触 golang 协程的时候，如果想停止子协程，可以通过 channel 通信的方式，主协程通知子协程终止。
 package main import ( &amp;#34;fmt&amp;#34; &amp;#34;time&amp;#34; ) func test(ch &amp;lt;-chan bool) { i, ticker := 0, time.NewTicker(time.Second) for _ = range ticker.C { select { case &amp;lt;-ch: return default: fmt.Println(&amp;#34;test&amp;#34;, i) i++ } } } func test1(ch &amp;lt;-chan bool) { i, ticker := 0, time.NewTicker(time.Second) for _ = range ticker.C { select { case &amp;lt;-ch: return default: fmt.Println(&amp;#34;test1&amp;#34;, i) i++ } } } func main() { ch := make(chan bool) go test(ch) go test1(ch) time.</description>
     </item>
     
     <item>
       <title>defer 的一个坑</title>
-      <link>http://linzhaopeng.com/post/defer-%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/</link>
+      <link>http://linzhaopeng.github.io/post/defer-%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/</link>
       <pubDate>Fri, 20 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://linzhaopeng.com/post/defer-%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/</guid>
+      <guid>http://linzhaopeng.github.io/post/defer-%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/</guid>
       <description>在匿名返回值函数和命名返回值函数中，defer 对返回值进行操作会导致不同的结果
 1.测试代码： package main import &amp;#34;fmt&amp;#34; func returnNamedResult() (result int){ defer func() { result++ }() return } func returnAnonymousResult() int { var result int defer func() { result++ }() return result } func main() { fmt.Println(returnNamedResult()) fmt.Println(returnAnonymousResult()) } 输出的结果为：
 2.对匿名返回值函数进行修改： package main import &amp;#34;fmt&amp;#34; func returnAnonymousResult() int { var n int defer func() { n++ fmt.Println(&amp;#34;second returnAnonymousResult:&amp;#34;, n) }() defer func() { n++ fmt.Println(&amp;#34;first returnAnonymousResult:&amp;#34;, n) }() return n } func main() { fmt.</description>
